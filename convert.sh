@@ -15,13 +15,13 @@ text/docx
 "
 
 selected=$(echo "$formats" | fzf)
-format=$(echo "$selected" | sed 's/.\+\/\(.\+\)/\1/')
-category=$(echo "$selected" | sed 's/\(.\+\)\/.\+/\1/')
+category=$(echo "$selected" | cut -d '/' -f 1)
+format=$(echo "$selected" | cut -d '/' -f 2)
 
 for arg in "$@"
 do
-    # shellcheck disable=SC2001
-    name=$(echo "$arg" | sed 's/\(.\+\)\..\+/\1/')
+    name=$(echo "$arg" | cut -d '.' -f 1)
+
     if [ "$category" = "text" ]; then
         pandoc -s "$arg" -o "${name}.${format}"
     else
