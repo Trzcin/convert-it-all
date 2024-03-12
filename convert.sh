@@ -34,11 +34,9 @@ for arg in "$@"
 do
     name=$(echo "$arg" | cut -d '.' -f 1)
 
-    if [ "$category" = "text" ]; then
-        pandoc -s "$arg" -o "${name}.${format}"
-    elif [ "$category" = "data" ]; then
-        yq -o="$selected" "$arg" > "${name}.${format}"
-    else
-        ffmpeg -i "$arg" "${name}.${format}"
-    fi
+    case $category in
+        text) pandoc -s "$arg" -o "${name}.${format}" ;;
+        data) yq -o="$selected" "$arg" > "${name}.${format}" ;;
+        image | video) ffmpeg -i "$arg" "${name}.${format}" ;;
+    esac
 done
