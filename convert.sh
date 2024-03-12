@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
 formats="
-image/jpg
-image/webp
-image/png
-video/webm
-video/mp4
-text/md
-text/tex
-text/org
-text/html
-text/pdf
-text/docx
-data/json
-data/yml
+image/jpg/jpg
+image/webp/webp
+image/png/png
+video/webm/webm
+video/mp4/mp4
+text/markdown/md
+text/tex/tex
+text/org/org
+text/html/html
+text/pdf/pdf
+text/docx/docx
+data/json/json
+data/yaml/yml
 "
 
 ext=$(echo "$1" | cut -d '.' -f 2)
@@ -28,16 +28,17 @@ if [ $? -ne 0 ]; then
     exit
 fi
 category=$(echo "$formats" | grep "/$selected" | cut -d '/' -f 1)
+format=$(echo "$formats" | grep "/$selected" | cut -d '/' -f 3)
 
 for arg in "$@"
 do
     name=$(echo "$arg" | cut -d '.' -f 1)
 
     if [ "$category" = "text" ]; then
-        pandoc -s "$arg" -o "${name}.${selected}"
+        pandoc -s "$arg" -o "${name}.${format}"
     elif [ "$category" = "data" ]; then
-        yq -o="$selected" "$arg" > "${name}.${selected}"
+        yq -o="$selected" "$arg" > "${name}.${format}"
     else
-        ffmpeg -i "$arg" "${name}.${selected}"
+        ffmpeg -i "$arg" "${name}.${format}"
     fi
 done
