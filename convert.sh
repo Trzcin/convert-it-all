@@ -20,6 +20,10 @@ matching_formats=$(echo "$formats" | grep "$input_category")
 matching_formats=$(echo "$matching_formats" | grep -v "$ext")
 
 selected=$(echo "$matching_formats" | fzf)
+# shellcheck disable=SC2181
+if [ $? -ne 0 ]; then
+    exit
+fi
 category=$(echo "$selected" | cut -d '/' -f 1)
 format=$(echo "$selected" | cut -d '/' -f 2)
 
