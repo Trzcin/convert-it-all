@@ -12,6 +12,8 @@ text/org
 text/html
 text/pdf
 text/docx
+data/json
+data/yml
 "
 
 ext=$(echo "$1" | cut -d '.' -f 2)
@@ -33,6 +35,8 @@ do
 
     if [ "$category" = "text" ]; then
         pandoc -s "$arg" -o "${name}.${selected}"
+    elif [ "$category" = "data" ]; then
+        yq -o="$selected" "$arg" > "${name}.${selected}"
     else
         ffmpeg -i "$arg" "${name}.${selected}"
     fi
