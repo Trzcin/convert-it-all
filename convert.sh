@@ -6,7 +6,7 @@ image/webp
 image/png
 video/webm
 video/mp4
-text/markdown
+text/md
 text/tex
 text/org
 text/html
@@ -14,7 +14,11 @@ text/pdf
 text/docx
 "
 
-selected=$(echo "$formats" | fzf)
+ext=$(echo "$1" | cut -d '.' -f 2)
+input_category=$(echo "$formats" | grep "$ext" | cut -d '/' -f 1)
+matching_formats=$(echo "$formats" | grep "$input_category")
+
+selected=$(echo "$matching_formats" | fzf)
 category=$(echo "$selected" | cut -d '/' -f 1)
 format=$(echo "$selected" | cut -d '/' -f 2)
 
