@@ -17,6 +17,7 @@ text/docx
 ext=$(echo "$1" | cut -d '.' -f 2)
 input_category=$(echo "$formats" | grep "$ext" | cut -d '/' -f 1)
 matching_formats=$(echo "$formats" | grep "$input_category")
+matching_formats=$(echo "$matching_formats" | grep -v "$ext")
 
 selected=$(echo "$matching_formats" | fzf)
 category=$(echo "$selected" | cut -d '/' -f 1)
