@@ -29,7 +29,6 @@ text/html/html
 text/ipynb/ipynb
 text/jats/xml
 text/Confluence wiki markup/jira/txt
-text/json/json
 text/latex/tex
 text/markdown/md
 text/markdown_mmd/md
@@ -60,67 +59,72 @@ video/webm/webm
 video/mp4/mp4
 data/json/json
 data/yaml/yml
-text/asciidoc/txt
-text/beamer/txt
-text/bibtex/txt
-text/biblatex/txt
-text/commonmark/txt
-text/commonmark_x/txt
-text/context/txt
-text/csljson/txt
-text/docbook/txt
-text/docbook5/txt
-text/docx/txt
-text/dokuwiki/txt
-text/epub/txt
-text/epub2/txt
-text/fb2/txt
-text/gfm/txt
+text/asciidoc/adoc
+text/beamer/tex
+text/bibtex/tex
+text/biblatex/tex
+text/commonmark/md
+text/commonmark_x/md
+text/context/tex
+text/csljson/json
+text/docbook/xml
+text/docbook5/xml
+text/docx/docx
+text/dokuwiki/xml
+text/epub/epub
+text/epub2/epub
+text/fb2/fb2
+text/gfm/md
 text/haddock/txt
-text/html/txt
-text/icml/txt
-text/ipynb/txt
-text/jats_archiving/txt
-text/jats_articleauthoring/txt
-text/jats_publishing/txt
-text/jats/txt
-text/jira/txt
-text/json/txt
-text/latex/txt
+text/html/html
+text/ipynb/ipynb
+text/jats_archiving/xml
+text/jats_articleauthoring/xml
+text/jats_publishing/xml
+text/jats/xml
+text/jira/md
+text/latex/tex
 text/man/txt
-text/markdown/txt
-text/markdown_mmd/txt
-text/markdown_phpextra/txt
-text/markdown_strict/txt
-text/markua/txt
+text/markdown/md
+text/markdown_mmd/md
+text/markdown_phpextra/md
+text/markdown_strict/md
+text/markua/md
 text/mediawiki/txt
 text/ms/txt
-text/muse/txt
-text/native/txt
-text/odt/txt
+text/muse/muse
+text/odt/odt
 text/opml/txt
-text/opendocument/txt
-text/org/txt
-text/pdf/txt
+text/opendocument/odt
+text/org/org
+text/pdf/pdf
 text/plain/txt
-text/pptx/txt
-text/rst/txt
-text/rtf/txt
-text/texinfo/txt
-text/textile/txt
-text/slideous/txt
-text/slidy/txt
-text/dzslides/txt
-text/revealjs/txt
-text/s5/txt
+text/pptx/pptx
+text/rst/rst
+text/rtf/rtf
+text/texinfo/tex
+text/textile/tex
+text/slideous/html
+text/slidy/html
+text/dzslides/html
+text/revealjs/html
+text/s5/html
 text/tei/txt
-text/xwiki/txt
-text/zimwiki/txt
+text/xwiki/md
+text/zimwiki/md
 "
 
-input_format="$1"
+input_format=""
+ext=""
+if [ "$1" == "-i" ]; then
+    input_format="$2"
+    ext=$(basename "$3" | cut -d '.' -f 2)
+else
+    ext=$(basename "$1" | cut -d '.' -f 2)
+    input_format=$(echo "$input_formats" | grep "$ext" | head -n 1)
+fi
 input_category=$(echo "$input_formats" | grep "$input_format" | cut -d '/' -f 1)
-matching_formats=$(echo "$formats" | grep "$input_category")
+matching_formats=$(echo "$output_formats" | grep "$input_category")
 matching_formats=$(echo "$matching_formats" | grep -v "$ext")
 matching_formats=$(echo "$matching_formats" | cut -d '/' -f 2)
 
@@ -129,16 +133,26 @@ selected=$(echo "$matching_formats" | fzf)
 if [ $? -ne 0 ]; then
     exit
 fi
-selected_category=$(echo "$formats" | grep "/$selected" | cut -d '/' -f 1)
-selected_ext=$(echo "$formats" | grep "/$selected" | cut -d '/' -f 3)
+selected_category=$(echo "$output_formats" | grep "/$selected" | cut -d '/' -f 1)
+selected_ext=$(echo "$output_formats" | grep "/$selected" | cut -d '/' -f 3)
 
-for i in "${@:2}"
+arg_start="1"
+if [ "$1" == "-i" ]; then
+    arg_start="3"
+fi
+for i in "${@:"$arg_start"}"
 do
     arg="$i"
     name=$(echo "$arg" | cut -d '.' -f 1)
 
-    case $category in
-        text) pandoc -s "$arg" -o "${name}.${selected_ext}" ;;
+    case $selected_category in
+        text)
+            if [ "$1" == "-i" ]; then
+                pandoc -s "$arg" -f "$2" -t "$selected" -o "${name}.${selected_ext}"
+            else
+                pandoc -s "$arg" -t "$selected" -o "${name}.${selected_ext}"
+            fi
+            ;;
         data) yq -o="$selected" "$arg" > "${name}.${selected_ext}" ;;
         image | video) ffmpeg -i "$arg" "${name}.${selected_ext}" ;;
     esac
