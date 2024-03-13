@@ -121,11 +121,11 @@ if [ "$1" == "-i" ]; then
     ext=$(basename "$3" | cut -d '.' -f 2)
 else
     ext=$(basename "$1" | cut -d '.' -f 2)
-    input_format=$(echo "$input_formats" | grep "$ext" | head -n 1)
+    input_format=$(echo "$input_formats" | grep "/$ext" | head -n 1 | cut -d '/' -f 2)
 fi
-input_category=$(echo "$input_formats" | grep "$input_format" | cut -d '/' -f 1)
-matching_formats=$(echo "$output_formats" | grep "$input_category")
-matching_formats=$(echo "$matching_formats" | grep -v "$ext")
+input_category=$(echo "$input_formats" | grep "/$input_format/" | cut -d '/' -f 1)
+matching_formats=$(echo "$output_formats" | grep "$input_category/")
+matching_formats=$(echo "$matching_formats" | grep -v "/$ext")
 matching_formats=$(echo "$matching_formats" | cut -d '/' -f 2)
 
 selected=$(echo "$matching_formats" | fzf)
@@ -133,8 +133,8 @@ selected=$(echo "$matching_formats" | fzf)
 if [ $? -ne 0 ]; then
     exit
 fi
-selected_category=$(echo "$output_formats" | grep "/$selected" | cut -d '/' -f 1)
-selected_ext=$(echo "$output_formats" | grep "/$selected" | cut -d '/' -f 3)
+selected_category=$(echo "$output_formats" | grep "/$selected/" | cut -d '/' -f 1)
+selected_ext=$(echo "$output_formats" | grep "/$selected/" | cut -d '/' -f 3)
 
 arg_start="1"
 if [ "$1" == "-i" ]; then
