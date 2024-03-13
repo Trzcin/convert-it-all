@@ -132,9 +132,9 @@ fi
 selected_category=$(echo "$formats" | grep "/$selected" | cut -d '/' -f 1)
 selected_ext=$(echo "$formats" | grep "/$selected" | cut -d '/' -f 3)
 
-# need to skip $1
-for arg in "$@"
+for i in "${@:2}"
 do
+    arg="$i"
     name=$(echo "$arg" | cut -d '.' -f 1)
 
     case $category in
