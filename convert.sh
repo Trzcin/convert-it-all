@@ -7,6 +7,7 @@ image/png/png
 image/gif/gif
 image/bmp/bmp
 image/tiff/tiff
+video/gif/gif
 video/webm/webm
 video/mp4/mp4
 video/mov/mov
@@ -71,6 +72,7 @@ image/png/png
 image/gif/gif
 image/bmp/bmp
 image/tiff/tiff
+video/gif/gif
 video/webm/webm
 video/mp4/mp4
 video/mov/mov
@@ -159,8 +161,8 @@ selected=$(echo "$matching_formats" | fzf)
 if [ $? -ne 0 ]; then
     exit
 fi
-selected_category=$(echo "$output_formats" | grep "/$selected/" | cut -d '/' -f 1)
-selected_ext=$(echo "$output_formats" | grep "/$selected/" | cut -d '/' -f 3)
+selected_category=$(echo "$output_formats" | grep "/$selected/" | cut -d '/' -f 1 | head -n 1)
+selected_ext=$(echo "$output_formats" | grep "/$selected/" | cut -d '/' -f 3 | head -n 1)
 
 arg_start="1"
 if [ "$1" == "-i" ]; then
