@@ -4,8 +4,21 @@ input_formats="
 image/jpg/jpg
 image/webp/webp
 image/png/png
+image/gif/gif
+image/bmp/bmp
+image/tiff/tiff
 video/webm/webm
 video/mp4/mp4
+video/mov/mov
+video/avi/avi
+video/Windows Media Video/wmv
+video/Flash Video/flv
+audio/mp3/mp3
+audio/wav/wav
+audio/MPEG 4/m4a
+audio/flac/flac
+audio/Windows Media Audio/wma
+audio/aac/aac
 data/json/json
 data/yaml/yml
 text/bibtex/tex
@@ -55,8 +68,21 @@ output_formats="
 image/jpg/jpg
 image/webp/webp
 image/png/png
+image/gif/gif
+image/bmp/bmp
+image/tiff/tiff
 video/webm/webm
 video/mp4/mp4
+video/mov/mov
+video/avi/avi
+video/Windows Media Video/wmv
+video/Flash Video/flv
+audio/mp3/mp3
+audio/wav/wav
+audio/MPEG 4/m4a
+audio/flac/flac
+audio/Windows Media Audio/wma
+audio/aac/aac
 data/json/json
 data/yaml/yml
 text/asciidoc/adoc
@@ -154,6 +180,6 @@ do
             fi
             ;;
         data) yq -o="$selected" "$arg" > "${name}.${selected_ext}" ;;
-        image | video) ffmpeg -i "$arg" "${name}.${selected_ext}" ;;
+        image | video | audio) ffmpeg -i "$arg" "${name}.${selected_ext}" ;;
     esac
 done
