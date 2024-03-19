@@ -8,6 +8,7 @@ image/gif/gif
 image/bmp/bmp
 image/tiff/tiff
 video/gif/gif
+video/webp/webp
 video/webm/webm
 video/mp4/mp4
 video/mov/mov
@@ -73,6 +74,7 @@ image/gif/gif
 image/bmp/bmp
 image/tiff/tiff
 video/gif/gif
+video/webp/webp
 video/webm/webm
 video/mp4/mp4
 video/mov/mov
@@ -176,9 +178,9 @@ do
     case $selected_category in
         text)
             if [ "$1" == "-i" ]; then
-                pandoc -s "$arg" -f "$2" -t "$selected" -o "${name}.${selected_ext}"
+                pandoc "$arg" -f "$2" -t "$selected" -o "${name}.${selected_ext}"
             else
-                pandoc -s "$arg" -t "$selected" -o "${name}.${selected_ext}"
+                pandoc "$arg" -t "$selected" -o "${name}.${selected_ext}"
             fi
             ;;
         data) yq -o="$selected" "$arg" > "${name}.${selected_ext}" ;;
