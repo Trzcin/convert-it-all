@@ -7,11 +7,16 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "check": "svelte-check --tsconfig ./tsconfig.json"
+        "check": "svelte-check --tsconfig ./tsconfig.json",
+        "lint": "npx eslint ."
     },
     "devDependencies": {
         "@sveltejs/vite-plugin-svelte": "^3.0.2",
         "@tsconfig/svelte": "^5.0.2",
+        "@typescript-eslint/eslint-plugin": "^7.4.0",
+        "@typescript-eslint/parser": "^7.4.0",
+        "eslint": "^8.57.0",
+        "eslint-plugin-svelte": "^2.35.1",
         "svelte": "^4.2.12",
         "svelte-check": "^3.6.7",
         "tslib": "^2.6.2",
