@@ -11,6 +11,7 @@
     --gray: #b9aeac;
     --accent: #48ff9e;
     --destructive: #ff5947;
+    color-scheme: dark;
 }
 
 body {
