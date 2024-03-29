@@ -1,7 +1,6 @@
 <script lang="ts">
-    import DocumentIcon from '$lib/icons/DocumentIcon.svelte';
-    import ImageIcon from '$lib/icons/ImageIcon.svelte';
-    import VideoIcon from '$lib/icons/VideoIcon.svelte';
+    import FileIcon from '$lib/icons/FileIcon.svelte';
+    import type { FormatCategory } from '$lib/formats';
 
     export let file: File;
 
@@ -12,16 +11,10 @@
         unitDisplay: 'narrow',
     });
 
-    $: type = file.type.split('/')[0];
+    $: category = file.type.split('/')[0] as FormatCategory;
 </script>
 
-{#if type === 'image'}
-    <ImageIcon />
-{:else if type === 'video'}
-    <VideoIcon />
-{:else}
-    <DocumentIcon />
-{/if}
+<FileIcon {category} />
 <p>{file.name}</p>
 <span>{fileSizeFormatter.format(file.size)}</span>
 
