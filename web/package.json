@@ -28,6 +28,7 @@
     },
     "dependencies": {
         "@ffmpeg/ffmpeg": "^0.12.10",
-        "@ffmpeg/util": "^0.12.1"
+        "@ffmpeg/util": "^0.12.1",
+        "pandoc-wasm": "^0.0.2"
     }
 }
