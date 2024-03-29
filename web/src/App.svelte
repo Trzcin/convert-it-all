@@ -3,7 +3,7 @@
     import UploadIcon from '$lib/icons/UploadIcon.svelte';
     import appState from '$lib/stores/appState';
     import DropzoneOverlay from './components/DropzoneOverlay.svelte';
-    import FileEntry from './components/FileEntry.svelte';
+    import FileInfo from './components/FileInfo.svelte';
     import FormatPicker from './components/FormatPicker.svelte';
     import Logo from './components/Logo.svelte';
 
@@ -21,6 +21,7 @@
         }
 
         console.log(format);
+        appState.set('load-module');
     }
 
     function handleFiles(ev: CustomEvent<FileList>) {
@@ -39,11 +40,7 @@
         </div>
         <DropzoneOverlay on:files={handleFiles} />
     {:else}
-        <div id="file-list">
-            {#each files as file (file.name)}
-                <FileEntry {file} />
-            {/each}
-        </div>
+        <FileInfo {category} {files} {pickedFormat} />
         <FormatPicker {category} {files} bind:pickedFormat />
     {/if}
 </main>
@@ -65,13 +62,5 @@
 
     #prompt h2 {
         font-weight: 600;
-    }
-
-    #file-list {
-        margin-top: 4rem;
-        display: grid;
-        grid-template-columns: 2rem 1fr auto;
-        align-items: center;
-        row-gap: 1.5rem;
     }
 </style>

@@ -2,21 +2,14 @@
     import FileIcon from '$lib/icons/FileIcon.svelte';
     import type { FormatCategory } from '$lib/formats';
 
-    export let file: File;
-
-    const fileSizeFormatter = Intl.NumberFormat('en', {
-        notation: 'compact',
-        style: 'unit',
-        unit: 'byte',
-        unitDisplay: 'narrow',
-    });
-
-    $: category = file.type.split('/')[0] as FormatCategory;
+    export let category: FormatCategory;
+    export let name: string;
+    export let size: string;
 </script>
 
 <FileIcon {category} />
-<p>{file.name}</p>
-<span>{fileSizeFormatter.format(file.size)}</span>
+<p>{name}</p>
+<span>{size}</span>
 
 <style>
     p {
