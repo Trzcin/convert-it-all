@@ -7,4 +7,7 @@ export default defineConfig({
     resolve: {
         alias: [{ find: '$lib', replacement: '/src/lib' }],
     },
+    optimizeDeps: {
+        exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util']
+    },
 });
