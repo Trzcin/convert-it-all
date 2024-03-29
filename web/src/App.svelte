@@ -1,14 +1,31 @@
 <script lang="ts">
+    import type { Format, FormatCategory } from '$lib/formats';
     import UploadIcon from '$lib/icons/UploadIcon.svelte';
     import appState from '$lib/stores/appState';
     import DropzoneOverlay from './components/DropzoneOverlay.svelte';
     import FileEntry from './components/FileEntry.svelte';
+    import FormatPicker from './components/FormatPicker.svelte';
     import Logo from './components/Logo.svelte';
 
     let files: FileList;
+    let category: FormatCategory;
+    let pickedFormat: Format;
+
+    $: {
+        handlePickFormat(pickedFormat);
+    }
+
+    function handlePickFormat(format: Format) {
+        if (format === undefined) {
+            return;
+        }
+
+        console.log(format);
+    }
 
     function handleFiles(ev: CustomEvent<FileList>) {
         files = ev.detail;
+        category = files[0].type.split('/')[0] as FormatCategory;
         appState.set('pick-format');
     }
 </script>
@@ -23,10 +40,11 @@
         <DropzoneOverlay on:files={handleFiles} />
     {:else}
         <div id="file-list">
-            {#each files as file}
+            {#each files as file (file.name)}
                 <FileEntry {file} />
             {/each}
         </div>
+        <FormatPicker {category} {files} bind:pickedFormat />
     {/if}
 </main>
 
