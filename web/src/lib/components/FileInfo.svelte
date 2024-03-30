@@ -55,13 +55,15 @@
     .file-list {
         margin-top: 4rem;
         display: grid;
-        grid-template-columns: 2rem auto auto;
+        grid-template-columns: 2rem fit-content(12.5rem) auto;
         align-items: center;
         row-gap: 1.5rem;
     }
 
     .expanded {
-        grid-template-columns: 2rem auto auto auto 2rem auto auto;
+        grid-template-columns:
+            2rem fit-content(12.5rem) auto auto 2rem fit-content(12.5rem)
+            auto;
     }
 
     .error {
