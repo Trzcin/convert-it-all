@@ -24,9 +24,7 @@
             name={conv.file.name}
             size={fileSizeFormatter.format(conv.file.size)}
         />
-    {/each}
-    {#if $appState !== 'pick-format'}
-        {#each conversions as conv (conv.file.name)}
+        {#if $appState !== 'pick-format'}
             <TweenedProgress
                 value={conv.progress}
                 error={conv.error !== undefined}
@@ -47,8 +45,8 @@
                         : fileSizeFormatter.format(conv.outputSize)}
                 />
             {/if}
-        {/each}
-    {/if}
+        {/if}
+    {/each}
 </div>
 
 <style>
