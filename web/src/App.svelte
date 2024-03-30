@@ -61,8 +61,9 @@
                 );
                 conversions[i] = conversions[i];
                 console.log(url);
-            } catch (_) {
+            } catch (error) {
                 conversions[i].error = 'Error';
+                console.error(error);
             }
         }
 
