@@ -12,7 +12,7 @@
 <FileIcon {category} />
 <p>
     {#if url !== undefined}
-        <a href={url}>{name}</a>
+        <a href={url} target="_blank">{name}</a>
     {:else}
         {name}
     {/if}
