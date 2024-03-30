@@ -9,6 +9,7 @@ export default class YamlConverter implements Converter {
 
     async convert(file: File, format: Format): Promise<string> {
         const text = await file.text();
+        this.onProgress(0.5);
 
         let result = '';
         if (format.name === 'yaml') {
@@ -16,6 +17,7 @@ export default class YamlConverter implements Converter {
         } else if (format.name === 'json') {
             result = JSON.stringify(YAML.parse(text));
         }
+        this.onProgress(1);
 
         return URL.createObjectURL(new Blob(
             [result],

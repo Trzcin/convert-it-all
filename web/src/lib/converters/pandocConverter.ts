@@ -16,12 +16,14 @@ export default class PandocConverter implements Converter {
 
     async convert(file: File, format: Format): Promise<string> {
         const text = await file.text();
+        this.onProgress(0.5);
         const extension = file.name.split('.')[1];
         const inputFormat = outputFormats.find(f => f.ext === extension);
         const result = await this.pandoc.run({
             text,
             options: { from: inputFormat!.name, to: format.name }
         });
+        this.onProgress(1);
 
         return URL.createObjectURL(new Blob(
             [result],
