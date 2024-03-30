@@ -25,7 +25,7 @@ export default class FFmpegConverter implements Converter {
         });
     }
 
-    async convert(conv: Conversion, format: Format): Promise<string> {
+    async convert(conv: Conversion, format: Format) {
         const file = conv.file;
         const fileData = await file.arrayBuffer();
         await this.ffmpeg.writeFile(file.name, new Uint8Array(fileData));
@@ -37,7 +37,6 @@ export default class FFmpegConverter implements Converter {
             { type: `${format.category}/${format.ext}` }
         );
         conv.outputSize = blob.size;
-
-        return URL.createObjectURL(blob);
+        conv.url = URL.createObjectURL(blob);
     }
 }

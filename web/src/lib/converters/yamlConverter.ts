@@ -8,7 +8,7 @@ export default class YamlConverter implements Converter {
 
     async init() {}
 
-    async convert(conv: Conversion, format: Format): Promise<string> {
+    async convert(conv: Conversion, format: Format) {
         const file = conv.file;
         const text = await file.text();
         this.onProgress(0.5);
@@ -25,7 +25,6 @@ export default class YamlConverter implements Converter {
             { type: `${format.category}/${format.ext}` }
         );
         conv.outputSize = blob.size;
-
-        return URL.createObjectURL(blob);
+        conv.url = URL.createObjectURL(blob)
     }
 }

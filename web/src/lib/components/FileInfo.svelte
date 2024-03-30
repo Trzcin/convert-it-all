@@ -39,6 +39,7 @@
                 <FileEntry
                     category={pickedFormat.category}
                     name={conv.file.name.split('.')[0] + '.' + pickedFormat.ext}
+                    url={conv.url}
                     size={conv.outputSize === undefined
                         ? '...'
                         : fileSizeFormatter.format(conv.outputSize)}

@@ -9,8 +9,7 @@ export interface Converter {
     onProgress(progress: number): void;
     /** Initialize converter */
     init(): Promise<void>;
-    /** Returns a URL to the converted file */
-    convert(conv: Conversion, format: Format): Promise<string>;
+    convert(conv: Conversion, format: Format): Promise<void>;
 }
 
 export function getConverter(category: FormatCategory): Converter {

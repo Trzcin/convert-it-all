@@ -34,6 +34,7 @@
                 error: undefined,
                 progress: 0,
                 outputSize: undefined,
+                url: undefined,
             };
         });
         category = files[0].type.split('/')[0] as FormatCategory;
@@ -55,12 +56,8 @@
             };
 
             try {
-                const url = await converter.convert(
-                    conversions[i],
-                    pickedFormat,
-                );
+                await converter.convert(conversions[i], pickedFormat);
                 conversions[i] = conversions[i];
-                console.log(url);
             } catch (error) {
                 conversions[i].error = 'Error';
                 console.error(error);
