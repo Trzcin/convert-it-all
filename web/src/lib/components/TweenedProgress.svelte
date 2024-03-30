@@ -2,12 +2,13 @@
     import { tweened } from 'svelte/motion';
 
     export let value = 0;
+    export let error = false;
 
     const progress = tweened(value);
     $: progress.set(value);
 </script>
 
-<progress value={$progress}></progress>
+<progress class:error value={error ? 1 : $progress}></progress>
 
 <style>
     progress {
@@ -21,5 +22,12 @@
     }
     progress::-moz-progress-bar {
         background: var(--accent);
+    }
+
+    .error::-webkit-progress-value {
+        background: var(--destructive);
+    }
+    .error::-moz-progress-bar {
+        background: var(--destructive);
     }
 </style>

@@ -27,12 +27,21 @@
     {/each}
     {#if $appState !== 'pick-format'}
         {#each conversions as conv (conv.file.name)}
-            <TweenedProgress value={conv.progress} />
-            <FileEntry
-                {category}
-                name={conv.file.name.split('.')[0] + '.' + pickedFormat.ext}
-                size="..."
+            <TweenedProgress
+                value={conv.progress}
+                error={conv.error !== undefined}
             />
+            {#if conv.error !== undefined}
+                <p class="error">{conv.error}</p>
+                <span></span>
+                <span></span>
+            {:else}
+                <FileEntry
+                    {category}
+                    name={conv.file.name.split('.')[0] + '.' + pickedFormat.ext}
+                    size="..."
+                />
+            {/if}
         {/each}
     {/if}
 </div>
@@ -48,5 +57,11 @@
 
     .expanded {
         grid-template-columns: 2rem auto auto auto 2rem auto auto;
+    }
+
+    .error {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--destructive);
     }
 </style>
