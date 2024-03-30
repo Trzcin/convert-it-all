@@ -1,6 +1,7 @@
 import Pandoc from "pandoc-wasm";
 import type { Converter } from "./converter";
 import { outputFormats, type Format } from "$lib/formats";
+import type { Conversion } from "$lib/conversion";
 
 export default class PandocConverter implements Converter {
     private pandoc: Pandoc;
@@ -14,7 +15,8 @@ export default class PandocConverter implements Converter {
         await this.pandoc.init();
     }
 
-    async convert(file: File, format: Format): Promise<string> {
+    async convert(conv: Conversion, format: Format): Promise<string> {
+        const file = conv.file;
         const text = await file.text();
         this.onProgress(0.5);
         const extension = file.name.split('.')[1];
@@ -24,10 +26,12 @@ export default class PandocConverter implements Converter {
             options: { from: inputFormat!.name, to: format.name }
         });
         this.onProgress(1);
-
-        return URL.createObjectURL(new Blob(
+        const blob = new Blob(
             [result],
             { type: `${format.category}/${format.ext}` }
-        ));
+        );
+        conv.outputSize = blob.size;
+
+        return URL.createObjectURL(blob);
     }
 }

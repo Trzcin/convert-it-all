@@ -1,3 +1,4 @@
+import type { Conversion } from "$lib/conversion";
 import type { Format, FormatCategory } from "$lib/formats";
 import FFmpegConverter from "./ffmpegConverter";
 import PandocConverter from "./pandocConverter";
@@ -9,7 +10,7 @@ export interface Converter {
     /** Initialize converter */
     init(): Promise<void>;
     /** Returns a URL to the converted file */
-    convert(file: File, format: Format): Promise<string>;
+    convert(conv: Conversion, format: Format): Promise<string>;
 }
 
 export function getConverter(category: FormatCategory): Converter {

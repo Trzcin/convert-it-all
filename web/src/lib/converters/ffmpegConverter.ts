@@ -2,6 +2,7 @@ import { FFmpeg } from "@ffmpeg/ffmpeg";
 import type { Converter } from "./converter";
 import { toBlobURL } from "@ffmpeg/util";
 import type { Format } from "$lib/formats";
+import type { Conversion } from "$lib/conversion";
 
 export default class FFmpegConverter implements Converter {
     private ffmpeg: FFmpeg;
@@ -24,16 +25,19 @@ export default class FFmpegConverter implements Converter {
         });
     }
 
-    async convert(file: File, format: Format): Promise<string> {
+    async convert(conv: Conversion, format: Format): Promise<string> {
+        const file = conv.file;
         const fileData = await file.arrayBuffer();
         await this.ffmpeg.writeFile(file.name, new Uint8Array(fileData));
         const outputName = `${file.name.split('.')[0]}.${format.ext}`;
         await this.ffmpeg.exec(['-i', file.name, outputName]);
         const output = await this.ffmpeg.readFile(outputName);
-
-        return URL.createObjectURL(new Blob(
+        const blob = new Blob(
             [output],
             { type: `${format.category}/${format.ext}` }
-        ));
+        );
+        conv.outputSize = blob.size;
+
+        return URL.createObjectURL(blob);
     }
 }

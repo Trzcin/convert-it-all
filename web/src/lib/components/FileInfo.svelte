@@ -39,7 +39,9 @@
                 <FileEntry
                     {category}
                     name={conv.file.name.split('.')[0] + '.' + pickedFormat.ext}
-                    size="..."
+                    size={conv.outputSize === undefined
+                        ? '...'
+                        : fileSizeFormatter.format(conv.outputSize)}
                 />
             {/if}
         {/each}

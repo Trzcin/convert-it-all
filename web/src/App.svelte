@@ -29,7 +29,12 @@
     function handleFiles(ev: CustomEvent<FileList>) {
         const files = ev.detail;
         conversions = Array.from(files).map((f) => {
-            return { file: f, error: undefined, progress: 0 };
+            return {
+                file: f,
+                error: undefined,
+                progress: 0,
+                outputSize: undefined,
+            };
         });
         category = files[0].type.split('/')[0] as FormatCategory;
         appState.set('pick-format');
@@ -51,9 +56,10 @@
 
             try {
                 const url = await converter.convert(
-                    conversions[i].file,
+                    conversions[i],
                     pickedFormat,
                 );
+                conversions[i] = conversions[i];
                 console.log(url);
             } catch (_) {
                 conversions[i].error = 'Error';
