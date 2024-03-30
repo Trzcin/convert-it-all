@@ -45,8 +45,8 @@
         try {
             await converter.init();
             appState.set('converting');
-        } catch (error) {
-            console.error(error);
+        } catch (_) {
+            appState.set('load-module.error');
         }
 
         for (let i = 0; i < conversions.length; i++) {
@@ -80,9 +80,13 @@
         <DropzoneOverlay on:files={handleFiles} />
     {:else}
         <FileInfo {category} {conversions} {pickedFormat} />
-        {#if $appState.startsWith('load-module')}
+        {#if $appState === 'load-module'}
             <p id="module-status">
                 Downloading the {category} conversion module ...
+            </p>
+        {:else if $appState === 'load-module.error'}
+            <p id="module-status" class="error">
+                Could not load {category} conversion module
             </p>
         {/if}
         <FormatPicker {category} {conversions} bind:pickedFormat />
@@ -113,5 +117,9 @@
         font-weight: 600;
         color: var(--gray);
         margin-top: 1.5rem;
+    }
+
+    .error {
+        color: var(--destructive);
     }
 </style>
