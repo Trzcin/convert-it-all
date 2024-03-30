@@ -29,6 +29,7 @@
     "dependencies": {
         "@ffmpeg/ffmpeg": "^0.12.10",
         "@ffmpeg/util": "^0.12.1",
+        "jszip": "^3.10.1",
         "pandoc-wasm": "^0.0.2",
         "yaml": "^2.4.1"
     }

@@ -8,10 +8,12 @@
     import FormatPicker from '$lib/components/FormatPicker.svelte';
     import Logo from '$lib/components/Logo.svelte';
     import type { Conversion } from '$lib/conversion';
+    import JSZip from 'jszip';
 
     let conversions: Conversion[] = [];
     let category: FormatCategory | undefined;
     let pickedFormat: Format | undefined;
+    let zipUrl: string | undefined;
 
     $: {
         handlePickFormat(pickedFormat);
@@ -36,6 +38,7 @@
                 progress: 0,
                 outputSize: undefined,
                 url: undefined,
+                data: undefined,
             };
         });
         category = files[0].type.split('/')[0] as FormatCategory;
@@ -70,10 +73,30 @@
 
     function restart() {
         conversions.forEach((c) => URL.revokeObjectURL(c.url!));
+        if (zipUrl) {
+            URL.revokeObjectURL(zipUrl);
+        }
         conversions = [];
         pickedFormat = undefined;
         category = undefined;
         appState.set('no-files');
+    }
+
+    async function downloadZip() {
+        const zip = new JSZip();
+        for (const conv of conversions) {
+            zip.file(
+                conv.file.name.split('.')[0] + '.' + pickedFormat?.ext,
+                conv.data,
+            );
+        }
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+        const zipLink = document.createElement('a');
+        zipUrl = URL.createObjectURL(zipBlob);
+        zipLink.href = zipUrl;
+        zipLink.download = 'converted.zip';
+        zipLink.click();
     }
 </script>
 
@@ -99,9 +122,16 @@
         {/if}
 
         {#if $appState === 'done'}
-            <button class="btn reload" on:click={restart}
-                >Convert more files</button
-            >
+            <div id="btns">
+                {#if conversions.length > 1}
+                    <button class="btn reload accent" on:click={downloadZip}
+                        >Download all (.zip)</button
+                    >
+                {/if}
+                <button class="btn reload" on:click={restart}
+                    >Convert more files</button
+                >
+            </div>
         {/if}
 
         <FormatPicker {category} {conversions} bind:pickedFormat />
@@ -138,10 +168,24 @@
         color: var(--destructive);
     }
 
+    #btns {
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
     .reload {
         font-size: 1rem;
         font-weight: 600;
         padding: 0.75rem 1.5rem;
-        margin-top: 1rem;
+    }
+
+    .accent {
+        color: var(--accent);
+    }
+
+    .accent:hover {
+        outline: 2px solid var(--accent);
     }
 </style>

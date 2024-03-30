@@ -32,5 +32,6 @@ export default class PandocConverter implements Converter {
         );
         conv.outputSize = blob.size;
         conv.url = URL.createObjectURL(blob)
+        conv.data = blob;
     }
 }
