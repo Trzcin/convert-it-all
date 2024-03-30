@@ -6,8 +6,8 @@
     import TweenedProgress from './TweenedProgress.svelte';
 
     export let conversions: Conversion[];
-    export let category: FormatCategory;
-    export let pickedFormat: Format;
+    export let category: FormatCategory | undefined;
+    export let pickedFormat: Format | undefined;
 
     const fileSizeFormatter = Intl.NumberFormat('en', {
         notation: 'compact',
@@ -37,8 +37,10 @@
                 <span></span>
             {:else}
                 <FileEntry
-                    category={pickedFormat.category}
-                    name={conv.file.name.split('.')[0] + '.' + pickedFormat.ext}
+                    category={pickedFormat?.category}
+                    name={conv.file.name.split('.')[0] +
+                        '.' +
+                        pickedFormat?.ext}
                     url={conv.url}
                     size={conv.outputSize === undefined
                         ? '...'

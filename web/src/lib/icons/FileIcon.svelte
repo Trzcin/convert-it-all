@@ -6,7 +6,7 @@
     import AudioIcon from './AudioIcon.svelte';
     import ApplicationIcon from './ApplicationIcon.svelte';
 
-    export let category: FormatCategory;
+    export let category: FormatCategory | undefined;
 </script>
 
 {#if category === 'image'}

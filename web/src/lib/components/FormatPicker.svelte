@@ -8,9 +8,9 @@
     } from '$lib/formats';
     import FileIcon from '$lib/icons/FileIcon.svelte';
 
-    export let category: FormatCategory;
+    export let category: FormatCategory | undefined;
     export let conversions: Conversion[];
-    export let pickedFormat: Format;
+    export let pickedFormat: Format | undefined;
 
     let searchText = '';
 
@@ -18,7 +18,7 @@
     $: formats = outputFormats.filter(
         (f) =>
             (f.category === category ||
-                extraCategories[category].includes(f.category)) &&
+                extraCategories[category!].includes(f.category)) &&
             !extensions.includes(f.ext) &&
             f.name.includes(searchText),
     );

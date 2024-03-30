@@ -10,14 +10,14 @@
     import type { Conversion } from '$lib/conversion';
 
     let conversions: Conversion[] = [];
-    let category: FormatCategory;
-    let pickedFormat: Format;
+    let category: FormatCategory | undefined;
+    let pickedFormat: Format | undefined;
 
     $: {
         handlePickFormat(pickedFormat);
     }
 
-    function handlePickFormat(format: Format) {
+    function handlePickFormat(format: Format | undefined) {
         if (format === undefined) {
             return;
         }
@@ -42,7 +42,7 @@
     }
 
     async function convert() {
-        const converter = getConverter(category);
+        const converter = getConverter(category!);
         try {
             await converter.init();
             appState.set('converting');
@@ -56,7 +56,7 @@
             };
 
             try {
-                await converter.convert(conversions[i], pickedFormat);
+                await converter.convert(conversions[i], pickedFormat!);
                 conversions[i] = conversions[i];
             } catch (error) {
                 conversions[i].error = 'Error';
@@ -65,6 +65,14 @@
         }
 
         appState.set('done');
+    }
+
+    function restart() {
+        conversions.forEach((c) => URL.revokeObjectURL(c.url!));
+        conversions = [];
+        pickedFormat = undefined;
+        category = undefined;
+        appState.set('no-files');
     }
 </script>
 
@@ -78,6 +86,7 @@
         <DropzoneOverlay on:files={handleFiles} />
     {:else}
         <FileInfo {category} {conversions} {pickedFormat} />
+
         {#if $appState === 'load-module'}
             <p id="module-status">
                 Downloading the {category} conversion module ...
@@ -87,6 +96,13 @@
                 Could not load {category} conversion module
             </p>
         {/if}
+
+        {#if $appState === 'done'}
+            <button class="btn reload" on:click={restart}
+                >Convert more files</button
+            >
+        {/if}
+
         <FormatPicker {category} {conversions} bind:pickedFormat />
     {/if}
 </main>
@@ -119,5 +135,12 @@
 
     .error {
         color: var(--destructive);
+    }
+
+    .reload {
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        margin-top: 1rem;
     }
 </style>

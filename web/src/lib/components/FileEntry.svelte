@@ -3,7 +3,7 @@
     import type { FormatCategory } from '$lib/formats';
     import DownloadIcon from '$lib/icons/DownloadIcon.svelte';
 
-    export let category: FormatCategory;
+    export let category: FormatCategory | undefined;
     export let name: string;
     export let size: string;
     export let url: string | undefined = undefined;
