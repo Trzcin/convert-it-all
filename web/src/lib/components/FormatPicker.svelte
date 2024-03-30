@@ -42,7 +42,7 @@
 
 <style>
     h2 {
-        margin-top: 7.25rem;
+        margin-top: 4rem;
         font-size: 2rem;
         font-weight: 800;
     }
