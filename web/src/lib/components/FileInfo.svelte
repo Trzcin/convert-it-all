@@ -1,9 +1,11 @@
 <script lang="ts">
+    import type { Conversion } from '$lib/conversion';
     import type { Format, FormatCategory } from '$lib/formats';
     import appState from '$lib/stores/appState';
     import FileEntry from './FileEntry.svelte';
+    import TweenedProgress from './TweenedProgress.svelte';
 
-    export let files: FileList;
+    export let conversions: Conversion[];
     export let category: FormatCategory;
     export let pickedFormat: Format;
 
@@ -16,19 +18,19 @@
 </script>
 
 <div class="file-list" class:expanded={$appState !== 'pick-format'}>
-    {#each files as file (file.name)}
+    {#each conversions as conv (conv.file.name)}
         <FileEntry
             {category}
-            name={file.name}
-            size={fileSizeFormatter.format(file.size)}
+            name={conv.file.name}
+            size={fileSizeFormatter.format(conv.file.size)}
         />
     {/each}
     {#if $appState !== 'pick-format'}
-        {#each files as file (file.name)}
-            <progress value={0}></progress>
+        {#each conversions as conv (conv.file.name)}
+            <TweenedProgress value={conv.progress} />
             <FileEntry
                 {category}
-                name={file.name.split('.')[0] + '.' + pickedFormat.ext}
+                name={conv.file.name.split('.')[0] + '.' + pickedFormat.ext}
                 size="..."
             />
         {/each}
@@ -46,18 +48,5 @@
 
     .expanded {
         grid-template-columns: 2rem auto auto auto 2rem auto auto;
-    }
-
-    progress {
-        margin: 0 2.5rem;
-        background-color: var(--gray);
-        height: 0.25rem;
-    }
-
-    progress::-webkit-progress-value {
-        background: var(--accent);
-    }
-    progress::-moz-progress-bar {
-        background: var(--accent);
     }
 </style>

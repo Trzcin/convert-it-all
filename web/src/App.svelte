@@ -7,8 +7,9 @@
     import FileInfo from '$lib/components/FileInfo.svelte';
     import FormatPicker from '$lib/components/FormatPicker.svelte';
     import Logo from '$lib/components/Logo.svelte';
+    import type { Conversion } from '$lib/conversion';
 
-    let files: FileList;
+    let conversions: Conversion[] = [];
     let category: FormatCategory;
     let pickedFormat: Format;
 
@@ -26,7 +27,10 @@
     }
 
     function handleFiles(ev: CustomEvent<FileList>) {
-        files = ev.detail;
+        const files = ev.detail;
+        conversions = Array.from(files).map((f) => {
+            return { file: f, error: undefined, progress: 0 };
+        });
         category = files[0].type.split('/')[0] as FormatCategory;
         appState.set('pick-format');
     }
@@ -36,14 +40,27 @@
         try {
             await converter.init();
             appState.set('converting');
-            for (const file of files) {
-                const URL = await converter.convert(file, pickedFormat);
-                console.log(URL);
-            }
-            appState.set('done');
         } catch (error) {
             console.error(error);
         }
+
+        for (let i = 0; i < conversions.length; i++) {
+            converter.onProgress = (progress) => {
+                conversions[i].progress = progress;
+            };
+
+            try {
+                const url = await converter.convert(
+                    conversions[i].file,
+                    pickedFormat,
+                );
+                console.log(url);
+            } catch (_) {
+                conversions[i].error = 'Error';
+            }
+        }
+
+        appState.set('done');
     }
 </script>
 
@@ -56,13 +73,13 @@
         </div>
         <DropzoneOverlay on:files={handleFiles} />
     {:else}
-        <FileInfo {category} {files} {pickedFormat} />
+        <FileInfo {category} {conversions} {pickedFormat} />
         {#if $appState.startsWith('load-module')}
             <p id="module-status">
                 Downloading the {category} conversion module ...
             </p>
         {/if}
-        <FormatPicker {category} {files} bind:pickedFormat />
+        <FormatPicker {category} {conversions} bind:pickedFormat />
     {/if}
 </main>
 

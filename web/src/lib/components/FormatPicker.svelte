@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { Conversion } from '$lib/conversion';
     import {
         outputFormats,
         type FormatCategory,
@@ -7,12 +8,12 @@
     import FileIcon from '$lib/icons/FileIcon.svelte';
 
     export let category: FormatCategory;
-    export let files: FileList;
+    export let conversions: Conversion[];
     export let pickedFormat: Format;
 
     let searchText = '';
 
-    $: extensions = Array.from(files).map((f) => f.name.split('.')[1]);
+    $: extensions = conversions.map((c) => c.file.name.split('.')[1]);
     $: formats = outputFormats.filter(
         (f) =>
             f.category === category &&
