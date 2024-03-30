@@ -5,10 +5,19 @@
     const dispatch = createEventDispatcher<{ files: FileList }>();
 
     let fileInput: HTMLInputElement;
+    export let uploadError = false;
 
     function handleDrop(ev: DragEvent) {
-        if (!ev.dataTransfer) {
+        if (!ev.dataTransfer || ev.dataTransfer.files.length === 0) {
             return;
+        }
+
+        const category = ev.dataTransfer.files[0].type.split('/')[0];
+        for (const file of ev.dataTransfer.files) {
+            if (file.type.split('/')[0] !== category) {
+                uploadError = true;
+                return;
+            }
         }
 
         dispatch('files', ev.dataTransfer.files);
@@ -18,6 +27,14 @@
         if (!fileInput.files || fileInput.files.length === 0) {
             appState.set('no-files');
             return;
+        }
+
+        const category = fileInput.files[0].type.split('/')[0];
+        for (const file of fileInput.files) {
+            if (file.type.split('/')[0] !== category) {
+                uploadError = true;
+                return;
+            }
         }
 
         dispatch('files', fileInput.files);
@@ -36,7 +53,11 @@
     bind:this={fileInput}
     on:change={handleFileSelect}
 />
-<div class="glow" class:accent-glow={$appState === 'no-files.dragging'}></div>
+<div
+    class="glow"
+    class:accent-glow={$appState === 'no-files.dragging'}
+    class:destructive-glow={uploadError}
+></div>
 
 <style>
     button {
@@ -62,6 +83,10 @@
 
     .accent-glow {
         box-shadow: inset var(--accent) 0 0 24px 8px;
+    }
+
+    .destructive-glow {
+        box-shadow: inset var(--destructive) 0 0 24px 8px;
     }
 
     input {

@@ -14,6 +14,7 @@
     let category: FormatCategory | undefined;
     let pickedFormat: Format | undefined;
     let zipUrl: string | undefined;
+    let uploadError = false;
 
     $: {
         handlePickFormat(pickedFormat);
@@ -104,10 +105,14 @@
     <Logo />
     {#if $appState.startsWith('no-files')}
         <div id="prompt">
-            <UploadIcon />
-            <h2>Click anywhere or drop files here to start</h2>
+            {#if uploadError}
+                <h2 class="error">Files need to have the same category</h2>
+            {:else}
+                <UploadIcon />
+                <h2>Click anywhere or drop files here to start</h2>
+            {/if}
         </div>
-        <DropzoneOverlay on:files={handleFiles} />
+        <DropzoneOverlay on:files={handleFiles} bind:uploadError />
     {:else}
         <FileInfo {category} {conversions} {pickedFormat} />
 
