@@ -37,7 +37,7 @@
                 <span></span>
             {:else}
                 <FileEntry
-                    {category}
+                    category={pickedFormat.category}
                     name={conv.file.name.split('.')[0] + '.' + pickedFormat.ext}
                     size={conv.outputSize === undefined
                         ? '...'

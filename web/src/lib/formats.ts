@@ -13,8 +13,6 @@ export const outputFormats: Format[] = [
     { category: 'image', name: 'gif', ext: 'gif'},
     { category: 'image', name: 'bmp', ext: 'bmp'},
     { category: 'image', name: 'tiff', ext: 'tiff'},
-    { category: 'video', name: 'gif', ext: 'gif'},
-    { category: 'video', name: 'webp', ext: 'webp'},
     { category: 'video', name: 'webm', ext: 'webm'},
     { category: 'video', name: 'mp4', ext: 'mp4'},
     { category: 'video', name: 'mov', ext: 'mov'},
@@ -83,3 +81,11 @@ export const outputFormats: Format[] = [
     { category: 'text', name: 'xwiki', ext: 'md'},
     { category: 'text', name: 'zimwiki', ext: 'md'},
 ];
+
+export const extraCategories: Record<FormatCategory, FormatCategory[]> = {
+    video: ['image', 'audio'],
+    application: [],
+    audio: [],
+    image: [],
+    text: []
+};

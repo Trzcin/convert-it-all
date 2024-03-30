@@ -4,6 +4,7 @@
         outputFormats,
         type FormatCategory,
         type Format,
+        extraCategories,
     } from '$lib/formats';
     import FileIcon from '$lib/icons/FileIcon.svelte';
 
@@ -16,7 +17,8 @@
     $: extensions = conversions.map((c) => c.file.name.split('.')[1]);
     $: formats = outputFormats.filter(
         (f) =>
-            f.category === category &&
+            (f.category === category ||
+                extraCategories[category].includes(f.category)) &&
             !extensions.includes(f.ext) &&
             f.name.includes(searchText),
     );
