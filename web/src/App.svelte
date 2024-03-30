@@ -22,6 +22,7 @@
             return;
         }
 
+        conversions.forEach((c) => URL.revokeObjectURL(c.url!));
         appState.set('load-module');
         convert();
     }
