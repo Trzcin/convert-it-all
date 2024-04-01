@@ -12,12 +12,12 @@ export interface Format {
 }
 
 export const outputFormats: Format[] = [
-    { category: 'image', name: 'jpg', ext: 'jpg' },
     { category: 'image', name: 'webp', ext: 'webp' },
     { category: 'image', name: 'png', ext: 'png' },
     { category: 'image', name: 'gif', ext: 'gif' },
     { category: 'image', name: 'bmp', ext: 'bmp' },
     { category: 'image', name: 'tiff', ext: 'tiff' },
+    { category: 'image', name: 'jpg', ext: 'jpg' },
     { category: 'video', name: 'webm', ext: 'webm' },
     { category: 'video', name: 'mp4', ext: 'mp4' },
     { category: 'video', name: 'mov', ext: 'mov' },
