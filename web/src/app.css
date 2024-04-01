@@ -30,6 +30,7 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 .btn:hover {
