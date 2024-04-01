@@ -1,4 +1,6 @@
-![Convert It All](./git-assets/logo.svg)
+<p align="center">
+    <img src="./git-assets/logo.svg" alt="Convert It All"/>
+</p>
 
 # Convert It All
 
