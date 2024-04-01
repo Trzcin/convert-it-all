@@ -1,8 +1,8 @@
-import type { Conversion } from "$lib/conversion";
-import type { Format, FormatCategory } from "$lib/formats";
-import FFmpegConverter from "./ffmpegConverter";
-import PandocConverter from "./pandocConverter";
-import YamlConverter from "./yamlConverter";
+import type { Conversion } from '$lib/conversion';
+import type { Format, FormatCategory } from '$lib/formats';
+import FFmpegConverter from './ffmpegConverter';
+import PandocConverter from './pandocConverter';
+import YamlConverter from './yamlConverter';
 
 export interface Converter {
     /** Callback fired on progress change. Parameter ranges from 0.0 to 1.0 */

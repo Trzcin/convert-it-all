@@ -1,6 +1,6 @@
-import type { Conversion } from "$lib/conversion";
-import type { Format } from "$lib/formats";
-import type { Converter } from "./converter";
+import type { Conversion } from '$lib/conversion';
+import type { Format } from '$lib/formats';
+import type { Converter } from './converter';
 import YAML from 'yaml';
 
 export default class YamlConverter implements Converter {
@@ -20,12 +20,11 @@ export default class YamlConverter implements Converter {
             result = JSON.stringify(YAML.parse(text));
         }
         this.onProgress(1);
-        const blob = new Blob(
-            [result],
-            { type: `${format.category}/${format.ext}` }
-        );
+        const blob = new Blob([result], {
+            type: `${format.category}/${format.ext}`,
+        });
         conv.outputSize = blob.size;
-        conv.url = URL.createObjectURL(blob)
+        conv.url = URL.createObjectURL(blob);
         conv.data = blob;
     }
 }

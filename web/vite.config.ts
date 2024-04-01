@@ -8,6 +8,6 @@ export default defineConfig({
         alias: [{ find: '$lib', replacement: '/src/lib' }],
     },
     optimizeDeps: {
-        exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util']
+        exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util'],
     },
 });
