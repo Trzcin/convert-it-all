@@ -12,9 +12,11 @@
 
 <style>
     progress {
-        margin: 0 2.5rem;
+        margin: 0 min(2.5rem, 4vw);
         background-color: var(--gray);
         height: 0.25rem;
+        width: 13vw;
+        max-width: 6rem;
     }
 
     progress::-webkit-progress-value {

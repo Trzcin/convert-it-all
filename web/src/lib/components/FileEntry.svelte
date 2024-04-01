@@ -36,7 +36,7 @@
         color: var(--gray);
         display: flex;
         align-items: center;
-        gap: 1.5rem;
+        gap: min(1.5rem, 2vw);
     }
 
     a {

@@ -51,7 +51,7 @@
         background: transparent;
         border-radius: 8px;
         border: 2px solid var(--gray);
-        width: 25rem;
+        width: 18rem;
         height: 3rem;
         font-size: 1rem;
         padding: 0 1rem;
@@ -76,7 +76,7 @@
     }
 
     button {
-        width: 17rem;
+        width: 18rem;
         height: 5rem;
         gap: 0.5rem;
         font-size: 1rem;

@@ -12,6 +12,7 @@
     --accent: #48ff9e;
     --destructive: #ff5947;
     color-scheme: dark;
+    font-size: min(16px, max(12px, 2vw));
 }
 
 body {
