@@ -25,7 +25,15 @@
             return;
         }
 
-        conversions.forEach((c) => URL.revokeObjectURL(c.url!));
+        conversions.forEach((c) => {
+            URL.revokeObjectURL(c.url!);
+            c.progress = 0;
+            c.error = undefined;
+            c.outputSize = undefined;
+            c.url = undefined;
+            c.data = undefined;
+        });
+        conversions = conversions;
         appState.set('load-module');
         convert();
     }
