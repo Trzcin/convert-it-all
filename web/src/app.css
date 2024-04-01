@@ -21,6 +21,10 @@ body {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
+input {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
 .btn {
     border: none;
     background-color: var(--primary-dark);
